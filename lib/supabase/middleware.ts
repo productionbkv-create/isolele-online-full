@@ -55,12 +55,17 @@ export async function updateSession(request: NextRequest) {
 
     // Allow access to login page always
     if (request.nextUrl.pathname === '/admin/login') {
-      // If already authenticated, redirect to dashboard
+      // If already authenticated, redirect directly to /admin/home
       if (adminSession === 'authenticated') {
         const url = request.nextUrl.clone()
-        url.pathname = '/admin'
+        url.pathname = '/admin/home'
         return NextResponse.redirect(url)
       }
+      return supabaseResponse
+    }
+
+    // Allow access to admin API routes without session check
+    if (request.nextUrl.pathname.startsWith('/admin/api')) {
       return supabaseResponse
     }
 
@@ -70,6 +75,9 @@ export async function updateSession(request: NextRequest) {
       url.pathname = '/admin/login'
       return NextResponse.redirect(url)
     }
+
+    // Authenticated: allow through
+    return supabaseResponse
   }
 
   if (
