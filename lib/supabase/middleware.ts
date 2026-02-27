@@ -2,6 +2,35 @@ import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function updateSession(request: NextRequest) {
+  const pathname = request.nextUrl.pathname
+
+  // --- ADMIN AUTH: handled independently of Supabase ---
+  if (pathname.startsWith('/admin')) {
+    const adminSession = request.cookies.get('admin_session')?.value
+
+    // Always allow the login page
+    if (pathname === '/admin/login') {
+      // Already logged in → send to home
+      if (adminSession === 'authenticated') {
+        const url = request.nextUrl.clone()
+        url.pathname = '/admin/home'
+        return NextResponse.redirect(url)
+      }
+      return NextResponse.next({ request })
+    }
+
+    // All other /admin/* routes require the cookie
+    if (adminSession !== 'authenticated') {
+      const url = request.nextUrl.clone()
+      url.pathname = '/admin/login'
+      return NextResponse.redirect(url)
+    }
+
+    // Authenticated: pass through immediately, no Supabase needed
+    return NextResponse.next({ request })
+  }
+  // --- END ADMIN AUTH ---
+
   let supabaseResponse = NextResponse.next({
     request,
   })
@@ -12,7 +41,6 @@ export async function updateSession(request: NextRequest) {
 
   if (!supabaseUrl || !supabaseAnonKey) {
     console.warn('[v0] Supabase environment variables not configured. Some features may be unavailable.')
-    // Return response without Supabase client initialization
     return supabaseResponse
   }
 
@@ -47,37 +75,6 @@ export async function updateSession(request: NextRequest) {
     user = authUser
   } catch (error) {
     console.error('[v0] Error getting user from Supabase:', error)
-  }
-
-  // Protect admin routes
-  if (request.nextUrl.pathname.startsWith('/admin')) {
-    const adminSession = request.cookies.get('admin_session')?.value
-
-    // Allow access to login page always
-    if (request.nextUrl.pathname === '/admin/login') {
-      // If already authenticated, redirect directly to /admin/home
-      if (adminSession === 'authenticated') {
-        const url = request.nextUrl.clone()
-        url.pathname = '/admin/home'
-        return NextResponse.redirect(url)
-      }
-      return supabaseResponse
-    }
-
-    // Allow access to admin API routes without session check
-    if (request.nextUrl.pathname.startsWith('/admin/api')) {
-      return supabaseResponse
-    }
-
-    // For all other admin routes, require the admin_session cookie
-    if (adminSession !== 'authenticated') {
-      const url = request.nextUrl.clone()
-      url.pathname = '/admin/login'
-      return NextResponse.redirect(url)
-    }
-
-    // Authenticated: allow through
-    return supabaseResponse
   }
 
   if (

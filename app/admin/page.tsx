@@ -1,14 +1,6 @@
-"use client"
+import { redirect } from "next/navigation"
 
-import { useEffect } from "react"
-import { useRouter } from "next/navigation"
-
+// /admin redirects to the real dashboard at /admin/home
 export default function AdminPage() {
-  const router = useRouter()
-
-  useEffect(() => {
-    router.push("/admin/home")
-  }, [router])
-
-  return null
+  redirect("/admin/home")
 }

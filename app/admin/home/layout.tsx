@@ -1,141 +1,192 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
-import { motion } from "framer-motion"
+import { useRouter, usePathname } from "next/navigation"
+import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
-import { Bell, Settings, LogOut, Menu, X } from "lucide-react"
+import Image from "next/image"
+import {
+  Bell, LogOut, Menu, X,
+  Home, Edit3, BarChart2, Settings,
+  ChevronRight, LayoutDashboard,
+} from "lucide-react"
 
 interface AdminHomeLayoutProps {
   children: React.ReactNode
 }
 
-export default function AdminHomeLayout({ children }: AdminHomeLayoutProps) {
-  const [sidebarOpen, setSidebarOpen] = useState(true)
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [user, setUser] = useState<{ email?: string; fullName?: string; role?: string } | null>(null)
-  const [notifications] = useState(3)
-  const [searchOpen, setSearchOpen] = useState(false)
+const navItems = [
+  { label: "Accueil",       href: "/admin/home",              icon: Home          },
+  { label: "Refact",        href: "/admin/home/refact",        icon: Edit3         },
+  { label: "Notifications", href: "/admin/home/notifications", icon: Bell          },
+  { label: "Reboard",       href: "/admin/home/reboard",       icon: BarChart2     },
+  { label: "Settings",      href: "/admin/home/settings",      icon: Settings      },
+]
 
-  const router = useRouter()
+export default function AdminHomeLayout({ children }: AdminHomeLayoutProps) {
+  const [mobileOpen, setMobileOpen] = useState(false)
+  const [isChecking, setIsChecking]  = useState(true)
+  const router   = useRouter()
   const pathname = usePathname()
 
+  // Auth guard
   useEffect(() => {
-    setUser({
-      email: "isoleleuniverse@gmail.com",
-      fullName: "Admin Isolele",
-      role: "super_admin",
-    })
-  }, [])
+    fetch("/api/admin/check-auth")
+      .then(res => {
+        if (!res.ok) router.replace("/admin/login")
+        else setIsChecking(false)
+      })
+      .catch(() => router.replace("/admin/login"))
+  }, [router])
 
   const handleLogout = async () => {
     await fetch("/api/admin/logout", { method: "POST" })
-    router.push("/admin/login")
+    window.location.href = "/admin/login"
   }
 
-  const navItems = [
-    { label: "Accueil", href: "/admin/home", icon: "🏠" },
-    { label: "Refact", href: "/admin/home/refact", icon: "✏️" },
-    { label: "Notifications", href: "/admin/home/notifications", icon: "🔔" },
-    { label: "Reboard", href: "/admin/home/reboard", icon: "📊" },
-    { label: "Settings", href: "/admin/home/settings", icon: "⚙️" },
-  ]
+  if (isChecking) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "#0A0E1A" }}>
+        <div className="w-8 h-8 border-2 border-[#C9A542] border-t-transparent rounded-full animate-spin" />
+      </div>
+    )
+  }
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: "#0F1524" }}>
-      {/* Top Navigation Bar */}
-      <nav
-        className="fixed top-0 left-0 right-0 z-50 border-b"
+    <div className="min-h-screen flex flex-col" style={{ backgroundColor: "#0A0E1A" }}>
+
+      {/* ── TOP NAV ── */}
+      <header
+        className="fixed top-0 inset-x-0 z-50 flex items-center justify-between px-4 md:px-8 h-16 border-b"
         style={{
-          backgroundColor: "rgba(15, 21, 36, 0.95)",
-          borderColor: "rgba(201, 165, 66, 0.2)",
+          background: "rgba(10,14,26,0.97)",
+          borderColor: "rgba(201,165,66,0.2)",
+          backdropFilter: "blur(10px)",
         }}
       >
-        <div className="flex items-center justify-between px-4 py-4 max-w-7xl mx-auto w-full">
-          {/* Logo & Mobile Menu Toggle */}
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden text-[#C9A542]"
-            >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-            <Link href="/admin/home" className="text-xl font-bold text-[#C9A542]">
-              ISOLELE.ADMIN
-            </Link>
-          </div>
+        {/* Logo */}
+        <Link href="/admin/home" className="flex items-center gap-3 shrink-0">
+          <Image
+            src="/images/isolele-logo.png"
+            alt="Isolele"
+            width={36}
+            height={36}
+            className="object-contain"
+            style={{ width: 36, height: "auto" }}
+          />
+          <span className="font-bold tracking-widest text-sm hidden sm:inline" style={{ color: "#C9A542" }}>
+            ISOLELE.ADMIN
+          </span>
+        </Link>
 
-          {/* Right Actions */}
-          <div className="flex items-center gap-6">
-            <button className="relative text-gray-400 hover:text-[#C9A542] transition">
-              <Bell size={20} />
-              <span
-                className="absolute -top-2 -right-2 w-5 h-5 rounded-full text-xs flex items-center justify-center"
-                style={{ backgroundColor: "#C9A542" }}
-              >
-                3
-              </span>
-            </button>
-            <button
-              onClick={handleLogout}
-              className="text-gray-400 hover:text-red-500 transition flex items-center gap-2"
-            >
-              <LogOut size={20} />
-              <span className="hidden sm:inline text-sm">Déconnexion</span>
-            </button>
-          </div>
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-1">
+          {navItems.map(({ href, label, icon: Icon }) => {
+            const active = pathname === href
+            return (
+              <Link key={href} href={href}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all"
+                style={{
+                  color: active ? "#C9A542" : "#9CA3AF",
+                  backgroundColor: active ? "rgba(201,165,66,0.12)" : "transparent",
+                }}>
+                <Icon size={16} />
+                {label}
+              </Link>
+            )
+          })}
+        </nav>
+
+        {/* Right actions */}
+        <div className="flex items-center gap-2">
+          {/* Dashboard link */}
+          <Link href="/admin/dashboard"
+            className="hidden lg:flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs border transition"
+            style={{ borderColor: "rgba(201,165,66,0.25)", color: "#C9A542" }}
+            title="Aller au Dashboard complet">
+            <LayoutDashboard size={14} />
+            <span>Dashboard</span>
+          </Link>
+
+          {/* Bell */}
+          <Link href="/admin/home/notifications"
+            className="relative p-2 rounded-lg text-gray-400 hover:text-[#C9A542] transition">
+            <Bell size={20} />
+            <span className="absolute top-0.5 right-0.5 w-4 h-4 rounded-full text-[10px] flex items-center justify-center font-bold"
+              style={{ backgroundColor: "#C9A542", color: "#0A0E1A" }}>
+              3
+            </span>
+          </Link>
+
+          {/* Logout */}
+          <button onClick={handleLogout}
+            className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-red-400 hover:bg-red-400/10 transition">
+            <LogOut size={16} />
+            <span>Déconnexion</span>
+          </button>
+
+          {/* Mobile menu toggle */}
+          <button className="md:hidden p-2 text-gray-400 hover:text-[#C9A542] transition"
+            onClick={() => setMobileOpen(v => !v)}>
+            {mobileOpen ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
+      </header>
 
-        {/* Mobile Navigation Menu */}
-        {mobileMenuOpen && (
+      {/* ── MOBILE MENU ── */}
+      <AnimatePresence>
+        {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-t"
-            style={{ borderColor: "rgba(201, 165, 66, 0.2)" }}
-          >
-            <div className="p-4 space-y-2">
-              {navItems.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="block px-4 py-2 rounded text-gray-400 hover:text-[#C9A542] hover:bg-[#C9A54220] transition"
-                >
-                  {item.icon} {item.label}
-                </Link>
-              ))}
-            </div>
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="fixed top-16 inset-x-0 z-40 border-b md:hidden"
+            style={{ background: "rgba(10,14,26,0.98)", borderColor: "rgba(201,165,66,0.2)" }}>
+            <nav className="p-4 space-y-1">
+              {navItems.map(({ href, label, icon: Icon }) => {
+                const active = pathname === href
+                return (
+                  <Link key={href} href={href} onClick={() => setMobileOpen(false)}
+                    className="flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium transition-all"
+                    style={{
+                      color: active ? "#C9A542" : "#9CA3AF",
+                      backgroundColor: active ? "rgba(201,165,66,0.12)" : "transparent",
+                    }}>
+                    <div className="flex items-center gap-3">
+                      <Icon size={18} />
+                      {label}
+                    </div>
+                    <ChevronRight size={14} />
+                  </Link>
+                )
+              })}
+              <Link href="/admin/dashboard" onClick={() => setMobileOpen(false)}
+                className="flex items-center justify-between px-4 py-3 rounded-lg text-sm font-medium text-gray-400 transition"
+                style={{ border: "1px solid rgba(201,165,66,0.2)" }}>
+                <div className="flex items-center gap-3">
+                  <LayoutDashboard size={18} />
+                  Dashboard Complet
+                </div>
+                <ChevronRight size={14} />
+              </Link>
+              <button onClick={handleLogout}
+                className="w-full flex items-center gap-3 px-4 py-3 rounded-lg text-sm text-red-400 hover:bg-red-400/10 transition">
+                <LogOut size={18} />
+                Déconnexion
+              </button>
+            </nav>
           </motion.div>
         )}
-      </nav>
+      </AnimatePresence>
 
-      {/* Sidebar for Desktop */}
-      <div
-        className="hidden md:fixed md:left-0 md:top-20 md:w-64 md:h-[calc(100vh-80px)] md:border-r md:block overflow-y-auto"
-        style={{ borderColor: "rgba(201, 165, 66, 0.2)" }}
-      >
-        <nav className="p-6 space-y-3">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="block px-4 py-3 rounded-lg text-gray-400 hover:text-[#C9A542] hover:bg-[#C9A54220] transition"
-            >
-              <span className="text-lg mr-3">{item.icon}</span>
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      </div>
-
-      {/* Main Content Area */}
-      <main className="md:ml-64 pt-20 p-4 md:p-8">
+      {/* ── CONTENT ── */}
+      <main className="flex-1 pt-16">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          key={pathname}
+          initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
+          transition={{ duration: 0.3 }}
+          className="max-w-7xl mx-auto px-4 md:px-8 py-8">
           {children}
         </motion.div>
       </main>
