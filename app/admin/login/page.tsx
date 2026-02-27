@@ -3,7 +3,7 @@
 import React from "react"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import Image from "next/image"
 import {
   Eye,
@@ -12,7 +12,6 @@ import {
   Loader2,
   Mail,
   Lock,
-  CheckCircle,
 } from "lucide-react"
 
 export default function AdminLoginPage() {
@@ -23,7 +22,6 @@ export default function AdminLoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
-  const [showWelcome, setShowWelcome] = useState(false)
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -40,8 +38,7 @@ export default function AdminLoginPage() {
       const data = await res.json()
 
       if (data.success) {
-        setShowWelcome(true)
-        setTimeout(() => router.push("/admin/home"), 2500)
+        router.push("/admin/home")
       } else {
         setError(data.error || "Email ou mot de passe incorrect")
       }
@@ -161,36 +158,6 @@ export default function AdminLoginPage() {
         <div className="absolute -top-4 -right-4 w-8 h-8 border-t-2 border-r-2 border-[#C9A542]/40" />
         <div className="absolute -bottom-4 -left-4 w-8 h-8 border-b-2 border-l-2 border-[#C9A542]/40" />
       </motion.div>
-
-      {/* Welcome Popup */}
-      <AnimatePresence>
-        {showWelcome && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              exit={{ scale: 0.8, opacity: 0 }}
-              className="rounded-2xl p-8 text-center max-w-sm mx-4"
-              style={{
-                background: "linear-gradient(135deg, rgba(15, 21, 36, 0.98) 0%, rgba(26, 32, 53, 0.98) 100%)",
-                border: "1px solid rgba(201, 165, 66, 0.4)",
-                boxShadow: "0 0 100px rgba(201, 165, 66, 0.3)",
-              }}
-            >
-              <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2, type: "spring" }} className="w-20 h-20 mx-auto mb-6 rounded-full bg-[#C9A542]/20 flex items-center justify-center">
-                <CheckCircle className="w-10 h-10 text-[#C9A542]" />
-              </motion.div>
-              <motion.h2 initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }} className="text-2xl font-bold text-white mb-2">
-                {"Bienvenue, Admin!"}
-              </motion.h2>
-              <motion.p initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4 }} className="text-gray-400 mb-6">
-                Connexion réussie. Redirection vers le tableau de bord...
-              </motion.p>
-              <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 2, ease: "linear" }} className="h-1.5 bg-gradient-to-r from-[#C9A542] to-[#FFD700] rounded-full origin-left" />
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   )
 }
