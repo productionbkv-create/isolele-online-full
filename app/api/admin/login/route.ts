@@ -1,16 +1,29 @@
 import { NextRequest, NextResponse } from "next/server"
 
-const ADMIN_EMAIL = "isoleleuniverse@gmai.com"
-const ADMIN_PASSWORD = "Isolele2025#"
+// Allowed admin credentials
+const ADMIN_CREDENTIALS = [
+  {
+    email: "isoleleuniverse@gmail.com",
+    password: "Isolele2025#"
+  },
+  {
+    email: "admin@isolele.com",
+    password: "Isolele2025#"
+  }
+]
 
 export async function POST(request: NextRequest) {
   try {
     const { email, password } = await request.json()
 
-    if (
-      email?.toLowerCase() === ADMIN_EMAIL.toLowerCase() &&
-      password === ADMIN_PASSWORD
-    ) {
+    // Check if credentials match any of the allowed admin accounts
+    const isValidAdmin = ADMIN_CREDENTIALS.some(
+      (cred) =>
+        email?.toLowerCase() === cred.email.toLowerCase() &&
+        password === cred.password
+    )
+
+    if (isValidAdmin) {
       const response = NextResponse.json({ success: true })
       response.cookies.set("admin_session", "authenticated", {
         path: "/",
