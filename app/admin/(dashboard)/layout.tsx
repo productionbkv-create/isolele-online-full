@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, type ReactNode } from "react"
+import { useState, type ReactNode } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
 import NextImage from "next/image"
@@ -29,35 +29,16 @@ interface AdminLayoutProps {
 export default function AdminLayout({ children }: AdminLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [user, setUser] = useState<{ email?: string; fullName?: string; role?: string } | null>(null)
+  const [user] = useState<{ email?: string; fullName?: string; role?: string } | null>({
+    email: "isoleleuniverse@gmail.com",
+    fullName: "Admin Isolele",
+    role: "super_admin",
+  })
   const [notifications] = useState(3)
   const [searchOpen, setSearchOpen] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
 
   const router = useRouter()
   const pathname = usePathname()
-
-  useEffect(() => {
-    // Check if user is authenticated
-    const checkAuth = async () => {
-      try {
-        const response = await fetch("/api/admin/check-auth")
-        if (!response.ok) {
-          router.push("/admin/login")
-          return
-        }
-        setUser({
-          email: "isoleleuniverse@gmail.com",
-          fullName: "Admin Isolele",
-          role: "super_admin",
-        })
-        setIsLoading(false)
-      } catch {
-        router.push("/admin/login")
-      }
-    }
-    checkAuth()
-  }, [router])
 
   const handleLogout = async () => {
     await fetch("/api/admin/logout", { method: "POST" })
@@ -67,19 +48,6 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const isActive = (href: string) => {
     if (href === "/admin") return pathname === "/admin"
     return pathname.startsWith(href)
-  }
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-[#0F1524] flex items-center justify-center">
-        <motion.div animate={{ opacity: [0.5, 1] }} transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }} className="text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full mb-4" style={{ backgroundColor: "#C9A54220" }}>
-            <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY }} className="w-8 h-8 border-2 border-[#C9A542] border-t-transparent rounded-full" />
-          </div>
-          <p className="text-gray-400">Vérification de l'authentification...</p>
-        </motion.div>
-      </div>
-    )
   }
 
   return (
