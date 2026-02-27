@@ -130,7 +130,7 @@ export function HeroSection() {
                 style={{ color: currentTheme.colors.textSecondary }}
               >
                 {
-                  "Une aventure palpitante et edifiante qui fait echo a l'esprit du Roi Lion et de Black Panther, tout en offrant aux jeunes lecteurs une celebration de l'heritage, du courage et de la decouverte de soi."
+                  "Une aventure palpitante et édifiante qui fait écho à l'esprit du Roi Lion et de Black Panther, tout en offrant aux jeunes lecteurs une célébration du patrimoine, du courage et de la découverte de soi."
                 }
               </motion.p>
 

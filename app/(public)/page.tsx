@@ -1,6 +1,7 @@
 "use client"
 
 import { HeroSection } from "@/components/home/hero-section"
+import { ProductsCarousel } from "@/components/home/products-carousel"
 import { UniverseSection } from "@/components/home/universe-section"
 import { CharactersSection } from "@/components/home/characters-section"
 import { NewsSection } from "@/components/home/news-section"
@@ -21,7 +22,7 @@ export default function HomePage() {
       <WebsiteJsonLd />
       
       {/* Page Sections - Extended for 8-9 scrolls */}
-      <HeroSection />
+      <ProductsCarousel />
       <UniverseSection />
       <StorySection />
       <CharactersSection />

@@ -2,18 +2,22 @@ import { updateSession } from '@/lib/supabase/middleware'
 import { type NextRequest, NextResponse } from 'next/server'
 
 export async function middleware(request: NextRequest) {
-  // Handle @admin secret access route
-  // When user types "/@admin" or "?@admin" in URL, redirect to admin login
   const pathname = request.nextUrl.pathname
-  const searchParams = request.nextUrl.search
-  
-  if (pathname === '/@admin' || pathname.includes('@admin') || searchParams.includes('@admin')) {
+
+  // Handle @admin secret access route
+  if (pathname === '/@admin' || pathname.includes('@admin') || request.nextUrl.search.includes('@admin')) {
     const url = request.nextUrl.clone()
     url.pathname = '/admin/login'
     url.search = ''
     return NextResponse.redirect(url)
   }
-  
+
+  // Skip Supabase middleware entirely for admin API routes
+  // These are handled directly by the API route handlers
+  if (pathname.startsWith('/api/admin/')) {
+    return NextResponse.next()
+  }
+
   return await updateSession(request)
 }
 
