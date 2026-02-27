@@ -92,6 +92,7 @@ export function SiteHeader() {
                   width={50}
                   height={50}
                   className="object-contain"
+                  style={{ width: "auto", height: "auto" }}
                 />
                 <motion.div
                   className="absolute inset-0 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300"
