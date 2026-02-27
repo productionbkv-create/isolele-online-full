@@ -127,9 +127,6 @@ export default function NotificationsPage() {
   )
 }
 
-
-export default function NotificationsPage() {
-  const notifications = [
     {
       id: 1,
       type: "order",

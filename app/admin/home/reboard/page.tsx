@@ -161,9 +161,6 @@ export default function ReboardPage() {
   )
 }
 
-
-export default function ReboardPage() {
-  const salesData = [
     { label: "Lun", value: 45 },
     { label: "Mar", value: 52 },
     { label: "Mer", value: 38 },
