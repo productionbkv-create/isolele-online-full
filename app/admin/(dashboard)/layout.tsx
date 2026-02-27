@@ -127,7 +127,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
                 >
                   <div className="p-4 flex items-center justify-between border-b border-[#C9A542]/20">
                     <div className="flex items-center gap-3">
-                      <NextImage src="/images/isolele-logo.png" alt="ISOLELE" width={40} height={40} className="object-contain" style={{ width: 40, height: 40 }} />
+                      <NextImage src="/images/isolele-logo.png" alt="ISOLELE" width={40} height={40} className="object-contain" />
                       <div>
                         <h1 className="text-lg font-bold text-white tracking-wider">ISOLELE</h1>
                         <p className="text-xs text-gray-400">Administration</p>
