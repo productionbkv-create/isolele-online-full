@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 
-const ADMIN_EMAIL = "isoleleuniverse@gmail.com"
+const ADMIN_EMAIL = "isoleleuniverse@gmai.com"
 const ADMIN_PASSWORD = "Isolele2025#"
 
 export async function POST(request: NextRequest) {

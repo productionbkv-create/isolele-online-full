@@ -88,7 +88,7 @@ export function SiteFooter() {
               className="text-sm leading-relaxed"
               style={{ color: currentTheme.colors.textSecondary }}
             >
-              Isolele est un univers visionnaire ne pour restaurer l'ame du storytelling africain, un empire mythologique ou les super-heros sont choisis par le destin, les royaumes jamais oublies, et le pouvoir ancestral est vivant dans chaque page, chaque prophetie, chaque bataille.
+              Isolele est un univers visionnaire né pour restaurer l'âme du storytelling africain, un empire mythologique où les super-héros sont choisis par le destin, les royaumes jamais oubliés, et le pouvoir ancestral est vivant dans chaque page, chaque prophétie, chaque bataille.
             </p>
             <div className="flex gap-4">
               {socialLinks.map((social) => (
@@ -185,7 +185,7 @@ export function SiteFooter() {
               className="text-sm mb-4"
               style={{ color: currentTheme.colors.textSecondary }}
             >
-              Inscrivez-vous pour recevoir des mises a jour exclusives sur les nouvelles sorties, les evenements et les offres speciales.
+              Inscrivez-vous pour recevoir des mises à jour exclusives sur les nouvelles sorties, les événements et les offres spéciales.
             </p>
             <form onSubmit={handleSubscribe} className="space-y-3">
               <input
@@ -231,7 +231,7 @@ export function SiteFooter() {
             className="text-sm text-center md:text-left"
             style={{ color: currentTheme.colors.textSecondary }}
           >
-            &copy; 2026 Isolele. {t("footer_copyright")}
+            Copyright icone isolele. All right reserved. A Congolese Heritage Initiative
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-sm">
             <Link

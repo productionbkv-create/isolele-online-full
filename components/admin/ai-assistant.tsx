@@ -54,19 +54,19 @@ export function AIAssistant() {
     const lowerMessage = userMessage.toLowerCase()
     
     if (lowerMessage.includes("personnage")) {
-      return "Pour ajouter un nouveau personnage:\n\n1. Allez dans le menu 'Personnages'\n2. Cliquez sur 'Nouveau Personnage'\n3. Remplissez les informations: nom, titre, biographie\n4. Ajoutez une image de profil\n5. Definissez les pouvoirs et caracteristiques\n6. Cliquez sur 'Enregistrer'\n\nVoulez-vous que je vous guide etape par etape?"
+      return "Pour ajouter un nouveau personnage:\n\n1. Allez dans le menu 'Personnages'\n2. Cliquez sur 'Nouveau Personnage'\n3. Remplissez les informations: nom, titre, biographie\n4. Ajoutez une image de profil\n5. Définissez les pouvoirs et caractéristiques\n6. Cliquez sur 'Enregistrer'\n\nVoulez-vous que je vous guide étape par étape?"
     }
     
     if (lowerMessage.includes("article") || lowerMessage.includes("publication")) {
-      return "Pour creer un nouvel article:\n\n1. Allez dans 'Actualites BD'\n2. Cliquez sur 'Nouvel Article'\n3. Redigez votre contenu avec l'editeur\n4. Ajoutez des images et des tags\n5. Choisissez la categorie\n6. Definissez la date de publication\n7. Publiez ou planifiez!\n\nL'editeur supporte le formatage riche et les images."
+      return "Pour créer un nouvel article:\n\n1. Allez dans 'Actualités BD'\n2. Cliquez sur 'Nouvel Article'\n3. Rédigez votre contenu avec l'éditeur\n4. Ajoutez des images et des tags\n5. Choisissez la catégorie\n6. Définissez la date de publication\n7. Publiez ou planifiez!\n\nL'éditeur supporte le formatage riche et les images."
     }
     
     if (lowerMessage.includes("commande")) {
-      return "La gestion des commandes:\n\n- Nouvelles commandes: Onglet 'A traiter'\n- Commandes expediees: Onglet 'Expediees'\n- Historique: Onglet 'Terminees'\n\nVous pouvez changer le statut en faisant glisser une commande d'une colonne a l'autre. Les clients sont automatiquement notifies par email."
+      return "La gestion des commandes:\n\n- Nouvelles commandes: Onglet 'À traiter'\n- Commandes expédiées: Onglet 'Expédiées'\n- Historique: Onglet 'Terminées'\n\nVous pouvez changer le statut en faisant glisser une commande d'une colonne à l'autre. Les clients sont automatiquement notifiés par email."
     }
     
     if (lowerMessage.includes("promotion") || lowerMessage.includes("promo")) {
-      return "Pour creer une promotion:\n\n1. Allez dans 'Boutique' > 'Promotions'\n2. Cliquez sur 'Nouveau Code'\n3. Definissez le type: pourcentage ou montant fixe\n4. Ajoutez les conditions (minimum d'achat, produits eligibles)\n5. Definissez la periode de validite\n6. Generez le code promo\n\nVous pouvez voir l'apercu de la banniere en temps reel!"
+      return "Pour créer une promotion:\n\n1. Allez dans 'Boutique' > 'Promotions'\n2. Cliquez sur 'Nouveau Code'\n3. Définissez le type: pourcentage ou montant fixe\n4. Ajoutez les conditions (minimum d'achat, produits éligibles)\n5. Définissez la période de validité\n6. Générez le code promo\n\nVous pouvez voir l'aperçu de la bannière en temps réel!"
     }
     
     if (lowerMessage.includes("aide") || lowerMessage.includes("help")) {
@@ -74,7 +74,7 @@ export function AIAssistant() {
     }
     
     if (lowerMessage.includes("statistique") || lowerMessage.includes("analytics")) {
-      return "Vos statistiques sont disponibles sur le tableau de bord:\n\n- Visites en temps reel\n- Commandes du jour/semaine/mois\n- Revenus et tendances\n- Pages les plus vues\n- Taux de conversion\n\nCliquez sur un graphique pour voir les details!"
+      return "Vos statistiques sont disponibles sur le tableau de bord:\n\n- Visites en temps réel\n- Commandes du jour/semaine/mois\n- Revenus et tendances\n- Pages les plus vues\n- Taux de conversion\n\nCliquez sur un graphique pour voir les détails!"
     }
     
     return "Je comprends votre question. Laissez-moi vous aider avec ca. Pouvez-vous me donner plus de details sur ce que vous souhaitez accomplir? Je suis la pour vous guider dans toutes les fonctionnalites du Centre de Commandes Isolele."
