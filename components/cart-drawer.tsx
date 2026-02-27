@@ -317,9 +317,10 @@ export function CartDrawer() {
                           <Image 
                             src="/images/isolele-logo.png" 
                             alt="Isolele" 
-                            width={60} 
-                            height={30}
+                            width={50} 
+                            height={50}
                             className="mx-auto mb-2"
+                            style={{ width: "auto", height: "auto" }}
                           />
                           <p className="font-bold">ISOLELE COMICS</p>
                           <p className="text-gray-500">www.isolele.com</p>
