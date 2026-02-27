@@ -11,7 +11,7 @@ export async function updateSession(request: NextRequest) {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 
   if (!supabaseUrl || !supabaseAnonKey) {
-    console.error('[v0] Missing Supabase environment variables. Check your .env.local file.')
+    console.warn('[v0] Supabase environment variables not configured. Some features may be unavailable.')
     // Return response without Supabase client initialization
     return supabaseResponse
   }
