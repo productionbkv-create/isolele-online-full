@@ -41,12 +41,12 @@ export default function AdminLoginPage() {
 
       if (data.success) {
         setShowWelcome(true)
-        setTimeout(() => router.push("/admin"), 2500)
+        setTimeout(() => router.push("/admin/(dashboard)"), 2500)
       } else {
         setError(data.error || "Email ou mot de passe incorrect")
       }
     } catch {
-      setError("Une erreur s'est produite. Veuillez reessayer.")
+      setError("Une erreur s'est produite. Veuillez réessayer.")
     } finally {
       setLoading(false)
     }
@@ -92,7 +92,7 @@ export default function AdminLoginPage() {
             <Image src="/images/isolele-logo.png" alt="ISOLELE Admin" width={70} height={70} className="mx-auto mb-4 object-contain" style={{ width: "70px", height: "auto" }} />
             <h1 className="text-xl font-bold text-white tracking-wider">CENTRE DE COMMANDES</h1>
             <p className="text-sm text-gray-400 mt-1">
-              Connectez-vous pour acceder au panneau
+              Connectez-vous pour accéder au panneau
             </p>
           </div>
 
@@ -184,7 +184,7 @@ export default function AdminLoginPage() {
                 {"Bienvenue, Admin!"}
               </motion.h2>
               <motion.p initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4 }} className="text-gray-400 mb-6">
-                Connexion reussie. Redirection vers le tableau de bord...
+                Connexion réussie. Redirection vers le tableau de bord...
               </motion.p>
               <motion.div initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} transition={{ duration: 2, ease: "linear" }} className="h-1.5 bg-gradient-to-r from-[#C9A542] to-[#FFD700] rounded-full origin-left" />
             </motion.div>
