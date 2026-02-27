@@ -2,7 +2,6 @@
 
 import React from "react"
 import { useState } from "react"
-import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import Image from "next/image"
 import {
@@ -15,8 +14,6 @@ import {
 } from "lucide-react"
 
 export default function AdminLoginPage() {
-  const router = useRouter()
-
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [showPassword, setShowPassword] = useState(false)
@@ -38,7 +35,8 @@ export default function AdminLoginPage() {
       const data = await res.json()
 
       if (data.success) {
-        router.push("/admin/home")
+        // Use full page reload so the cookie is sent with the next request
+        window.location.href = "/admin/home"
       } else {
         setError(data.error || "Email ou mot de passe incorrect")
       }
