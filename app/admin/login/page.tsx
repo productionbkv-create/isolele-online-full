@@ -41,7 +41,7 @@ export default function AdminLoginPage() {
 
       if (data.success) {
         setShowWelcome(true)
-        setTimeout(() => router.push("/admin/(dashboard)"), 2500)
+        setTimeout(() => router.push("/admin"), 2500)
       } else {
         setError(data.error || "Email ou mot de passe incorrect")
       }
