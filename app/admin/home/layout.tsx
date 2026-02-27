@@ -41,7 +41,7 @@ export default function AdminHomeLayout({ children }: AdminHomeLayoutProps) {
         style={{ background: "rgba(10,14,26,0.97)", borderColor: "rgba(201,165,66,0.2)", backdropFilter: "blur(10px)" }}
       >
         <Link href="/admin/home" className="flex items-center gap-3 shrink-0">
-          <Image src="/images/isolele-logo.png" alt="Isolele" width={36} height={36} className="object-contain" />
+          <Image src="/images/isolele-logo.png" alt="Isolele" width={36} height={36} className="object-contain" style={{ width: 36, height: 36 }} />
           <span className="font-bold tracking-widest text-sm hidden sm:inline" style={{ color: "#C9A542" }}>
             ISOLELE.ADMIN
           </span>

@@ -84,7 +84,7 @@ export default function AdminLoginPage() {
         >
           {/* Header */}
           <div className="p-6 pb-4 border-b border-[#C9A542]/20 text-center">
-            <Image src="/images/isolele-logo.png" alt="ISOLELE Admin" width={70} height={70} className="mx-auto mb-4 object-contain" style={{ width: "70px", height: "auto" }} />
+            <Image src="/images/isolele-logo.png" alt="ISOLELE Admin" width={70} height={70} className="mx-auto mb-4 object-contain" style={{ width: 70, height: 70 }} />
             <h1 className="text-xl font-bold text-white tracking-wider">CENTRE DE COMMANDES</h1>
             <p className="text-sm text-gray-400 mt-1">
               Connectez-vous pour accéder au panneau
